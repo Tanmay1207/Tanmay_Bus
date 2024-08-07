@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Bus Ticket Booking</title>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           margin: 0;
+           padding: 0;
+           background-color: #f4f4f4;
+       }
+
+       h1 {
+           text-align: center;
+           color: #333;
+           margin-top: 20px;
+       }
+
+       select, input[type="date"] {
+           margin: 10px;
+           padding: 8px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           width: 200px;
+       }
+
+       table {
+           width: 80%;
+           margin: 0 auto;
+           border-collapse: collapse;
+           background-color: #fff;
+       }
+
+       th, td {
+           padding: 12px;
+           border: 1px solid #ddd;
+           text-align: left;
+       }
+
+       th {
+           background-color: #f2f2f2;
+           color: #333;
+       }
+
+       tr:hover {
+           background-color: #f5f5f5;
+       }
+
+       a {
+           text-decoration: none;
+           color: #007bff;
+       }
+
+       a:hover {
+           text-decoration: underline;
+       }
+
+       /* Styling for the bus type filter */
+       #busTypeFilter {
+           margin-right: 20px;
+       }
+   </style>
+</head>
+<body>
+<h1>Available Buses</h1>
+<select id="busTypeFilter" onchange="filterBuses()">
+   <option value="">Filter by Bus Type</option>
+   <option value="ac">AC</option>
+   <option value="non-ac">Non-AC</option>
+   <option value="seater">Seater</option>
+   <option value="sleeper">Sleeper</option>
+</select>
+<label for="date">Date:</label>
+<input type="date" id="date" name="date" onchange="filterBuses()" required>
+<table>
+   <thead>
+   <tr>
+       <th>Bus Name</th>
+       <th>Price</th>
+       <th>Action</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr class="busRow" id="bus1" data-type="ac">
+       <td>Humsafar</td>
+       <td>$50</td>
+       <td><a href="#">Select Seats</a></td>
+   </tr>
+   <tr class="busRow" id="bus2" data-type="non-ac">
+       <td>Neeta</td>
+       <td>$60</td>
+       <td><a href="#">Select Seats</a></td>
+   </tr>
+   <tr class="busRow" id="bus3" data-type="seater">
+       <td>Himalaya</td>
+       <td>$70</td>
+       <td><a href="#">Select Seats</a></td>
+   </tr>
+   <tr class="busRow" id="bus4" data-type="sleeper">
+       <td>Raj Ratan</td>
+       <td>$80</td>
+       <td><a href="#">Select Seats</a></td>
+   </tr>
+   <tr class="busRow" id="bus5" data-type="ac">
+       <td>Shreyas</td>
+       <td>$90</td>
+       <td><a href="#">Select Seats</a></td>
+   </tr>
+   </tbody>
+</table>
+<script>
+   function filterBuses() {
+       var filter = document.getElementById("busTypeFilter").value.toLowerCase();
+       var buses = document.getElementsByClassName("busRow");
+       var selectedDate = document.getElementById("date").value; // Get the selected date from the date picker
+       for (var i = 0; i < buses.length; i++) {
+           var busType = buses[i].getAttribute("data-type").toLowerCase();
+           var busName = buses[i].querySelector("td:first-child").innerText;
+           var url = "/seat-list?busName=" + encodeURIComponent(busName) + "&date=" + encodeURIComponent(selectedDate);
+           buses[i].querySelector("td:last-child a").setAttribute("href", url);
+           if (filter === "" || busType === filter) {
+               buses[i].style.display = "table-row";
+           } else {
+               buses[i].style.display = "none";
+           }
+       }
+   }
+</script>
+</body>
+</html>

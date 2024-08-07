@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Bus Ticket Booking</title>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           margin: 0;
+           padding: 0;
+           background-color: #f4f4f4;
+       }
+
+       h1 {
+           text-align: center;
+           color: #333;
+           margin-top: 20px;
+       }
+
+       form {
+           width: 60%;
+           margin: 20px auto;
+           background-color: #fff;
+           padding: 20px;
+           border-radius: 8px;
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       }
+
+       select, button {
+           width: 100%;
+           padding: 10px;
+           margin-bottom: 15px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           box-sizing: border-box;
+           font-size: 16px;
+       }
+
+       button {
+           background-color: #007bff;
+           color: #fff;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+
+       button:hover {
+           background-color: #0056b3;
+       }
+
+       select:focus, button:focus {
+           outline: none;
+           border-color: #007bff;
+           box-shadow: 0 0 3px 1px rgba(0, 123, 255, 0.6);
+       }
+
+       option {
+           padding: 10px;
+       }
+   </style>
+</head>
+<body>
+<h1>Select Seat</h1>
+<form action="/thank-you" method="post">
+   <input type="hidden" name="busName" th:value="${param.busName}">
+   <input type="hidden" name="date" th:value="${param.date}"> <!-- Add hidden input field to send the date -->
+
+   <select name="seatNumber">
+       <option value="">Select Seat</option>
+       <th:block th:each="seatNumber : ${availableSeatNumbers}">
+           <option th:value="${seatNumber}" th:text="'Seat ' + ${seatNumber}"></option>
+       </th:block>
+   </select>
+   <button type="submit">Book Seat</button>
+</form>
+</body>
+</html>
